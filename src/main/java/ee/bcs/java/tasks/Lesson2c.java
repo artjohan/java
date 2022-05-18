@@ -1,9 +1,11 @@
 package ee.bcs.java.tasks;
 
+import java.util.Arrays;
+
 public class Lesson2c {
 
     public static void main(String[] args) {
-
+        System.out.println(sequence3n(10, 30));
     }
 
     // TODO
@@ -26,7 +28,27 @@ public class Lesson2c {
     //  kutsuge iga väärtuse korral välja meetodit getSeqLength
     //  salvestage maha kõige suurem ja funktsiooni lõpus tagastage leitud arv
     public static int sequence3n(int x, int y) {
-       return 0;
+        int s = y-x+1;
+        int[] a = new int[s];
+        int index = 0;
+
+        while (x <= y) {
+            int b = getSeqLength(x);
+            a[index] = b;
+            if (index != s) {
+                index = index + 1;
+            }
+            x = x + 1;
+        }
+        int index2 = 0;
+
+        while (index2 < s - 1) {
+            if (a[index2] > a[index2 + 1]) {
+                a[index2 + 1] = a[index2];
+            }
+            index2 = index2 + 1;
+        }
+        return a[s - 1];
     }
 
     // TODO 2
@@ -35,7 +57,20 @@ public class Lesson2c {
     //  x = 1 ->1
     //  x = 2 -> 2
     public static int getSeqLength(int x){
-        return 0;
+        int index = 0;
+
+        while (nextElement(x) != 1) {
+            nextElement(x);
+            int y = nextElement(x);
+            x = y;
+            if (nextElement(x) == 1) {
+                index = index + 2;
+            }
+            else {
+                index = index + 1;
+            }
+        }
+        return index + 1;
     }
 
     // TODO 1
@@ -44,7 +79,16 @@ public class Lesson2c {
     //  x = 2 -> 1
     //  x = 3 -> 10
     public static int nextElement(int x){
-        return 0;
+        if (x == 1) {
+            return x;
+        }
+        else if (x % 2 == 0) {
+            x = x / 2;
+        }
+        else {
+            x = 3 * x + 1;
+        }
+        return x;
     }
 
 }

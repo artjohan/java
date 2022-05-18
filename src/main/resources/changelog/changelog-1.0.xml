@@ -4,36 +4,62 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="1" author="Siim">
-        <createTable tableName="author">
+    <changeSet id="2021-09-05 Add employee table" author="Art">
+        <createTable tableName="employee">
             <column name="id" type="int" autoIncrement="true">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="name" type="text"/>
-        </createTable>
-
-        <createTable tableName="book">
-            <column name="id" type="int" autoIncrement="true">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="description" type="text"/>
-            <column name="name" type="text"/>
-            <column name="author_id" type="int">
                 <constraints
+                        primaryKey="true"
                         unique="true"
-                        nullable="false"
-                        foreignKeyName="fk_book_author"
-                        references="author(id)"
-                deleteCascade="true"/>
+                        nullable="false"/>
+            </column>
+            <column name="first_name" type="text"/>
+            <column name="last_name" type="text"/>
+            <column name="age" type="int"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2022-09-05 Add bankaccounts table" author="Art">
+        <createTable tableName="bankaccounts">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints
+                        primaryKey="true"
+                        unique="true"
+                        nullable="false"/>
+            </column>
+            <column name="acc_nr" type="text">
+                <constraints unique="true"/>
+            </column>
+            <column name="first_name" type="text"/>
+            <column name="last_name" type="text"/>
+            <column name="is_locked" type="boolean" defaultValueBoolean="false"/>
+            <column name="balance" type="double" defaultValue="0.0"/>
+            <column name="employee_id" type="int">
+                <constraints
+                        foreignKeyName="account_employee_id_fk"
+                        references="employee(id)"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="2021-09-07 Add client table" author="Siim Rebane">
-        <createTable tableName="client">
+    <changeSet id="2022-09-05 Add transactions table" author="Art">
+        <createTable tableName="transactions">
             <column name="id" type="int" autoIncrement="true">
-                <constraints primaryKey="true"/>
+                <constraints
+                        primaryKey="true"
+                        unique="true"
+                        nullable="false"/>
             </column>
-            <column name="name" type="text"/>
+            <column name="transaction_type" type="text"/>
+            <column name="amount" type="double"/>
+            <column name="sender" type="text" defaultValue="no sender"/>
+            <column name="sender_bal_left" type="double" defaultValue="0.0"/>
+            <column name="receiver" type="text"/>
+            <column name="receiver_bal_left" type="double"/>
         </createTable>
+    </changeSet>
+    <changeSet id="2022-16-05 Change bankaccounts table" author="Art">
+        <dropColumn tableName="bankaccounts" columnName="id"/>
+        <addPrimaryKey tableName="bankaccounts" columnNames="acc_nr"/>
+    </changeSet>
+    <changeSet id="2022-18-05 Change transactions table" author="Art">
+        <dropDefaultValue tableName="transactions" columnName="sender"/>
     </changeSet>
 </databaseChangeLog>
